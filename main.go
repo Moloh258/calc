@@ -18,10 +18,12 @@ func main() {
 		splittedInputText := strings.Split(inputText, " ")
 
 		if len(splittedInputText) == 1 {
+			defer recoverFunc()
 			panic("Выдача паники, так как строка не является математической операцией.")
 		}
 
 		if len(splittedInputText) != 3 {
+			defer recoverFunc()
 			panic("Выдача паники, так как формат математической операции не удовлетворяет заданию — два операнда и один оператор (+, -, /, *).")
 		}
 
@@ -30,10 +32,12 @@ func main() {
 		operator := splittedInputText[1]
 
 		if firstNumber == 0 || secondNumber == 0 {
+			defer recoverFunc()
 			panic("Ошибка: неверный формат числа")
 		}
 
 		if isRomanNumeral(splittedInputText[0]) != isRomanNumeral(splittedInputText[2]) {
+			defer recoverFunc()
 			panic("Выдача паники, так как используются одновременно разные системы счисления.")
 		}
 
@@ -48,13 +52,14 @@ func main() {
 		case "/":
 			result = firstNumber / secondNumber
 		default:
+			defer recoverFunc()
 			panic("Выдача паники, так как какой-то не такой у вас оператор")
-			continue
 		}
 
 		if isRomanNumeral(splittedInputText[0]) {
 			romanResult := arabicToRoman(result)
 			if result < 0 {
+				defer recoverFunc()
 				panic("Выдача паники, так как в римской системе нет отрицательных чисел.")
 			} else {
 				fmt.Println("Результат: ", romanResult)
@@ -62,6 +67,13 @@ func main() {
 		} else {
 			fmt.Println("Результат: ", result)
 		}
+	}
+}
+
+func recoverFunc() {
+	if r := recover(); r != nil {
+		fmt.Println(r, "\n\nПерезапуск калькулятора...")
+		main()
 	}
 }
 
