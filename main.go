@@ -18,13 +18,11 @@ func main() {
 		splittedInputText := strings.Split(inputText, " ")
 
 		if len(splittedInputText) == 1 {
-			fmt.Println("Выдача паники, так как строка не является математической операцией.")
-			continue
+			panic("Выдача паники, так как строка не является математической операцией.")
 		}
 
 		if len(splittedInputText) != 3 {
-			fmt.Println("Выдача паники, так как формат математической операции не удовлетворяет заданию — два операнда и один оператор (+, -, /, *).")
-			continue
+			panic("Выдача паники, так как формат математической операции не удовлетворяет заданию — два операнда и один оператор (+, -, /, *).")
 		}
 
 		firstNumber := parseNumber(splittedInputText[0])
@@ -32,13 +30,11 @@ func main() {
 		operator := splittedInputText[1]
 
 		if firstNumber == 0 || secondNumber == 0 {
-			fmt.Println("Ошибка: неверный формат числа")
-			continue
+			panic("Ошибка: неверный формат числа")
 		}
 
 		if isRomanNumeral(splittedInputText[0]) != isRomanNumeral(splittedInputText[2]) {
-			fmt.Println("Выдача паники, так как используются одновременно разные системы счисления.")
-			continue
+			panic("Выдача паники, так как используются одновременно разные системы счисления.")
 		}
 
 		result := 0
@@ -52,14 +48,14 @@ func main() {
 		case "/":
 			result = firstNumber / secondNumber
 		default:
-			fmt.Println("Какой-то не такой у вас оператор")
+			panic("Выдача паники, так как какой-то не такой у вас оператор")
 			continue
 		}
 
 		if isRomanNumeral(splittedInputText[0]) {
 			romanResult := arabicToRoman(result)
 			if result < 0 {
-				fmt.Println("Выдача паники, так как в римской системе нет отрицательных чисел.")
+				panic("Выдача паники, так как в римской системе нет отрицательных чисел.")
 			} else {
 				fmt.Println("Результат: ", romanResult)
 			}
